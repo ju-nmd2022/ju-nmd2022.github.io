@@ -1,26 +1,25 @@
 window.addEventListener("load", () => {
-  fetch("export.csv")
+  fetch("fop-games.csv")
     .then((response) => response.text())
     .then((data) => {
-      console.log(data);
       const lines = String(data).split("\n");
-      const ul = document.createElement("ul");
+      const container = document.getElementById("container");
       lines.shift();
       lines.forEach((element) => {
-        const result = element.split(",");
-        if (result.length === 1) {
+        const result = element.split(";");
+        if (result.length !== 3) {
           return;
         }
 
-        const li = document.createElement("li");
         const a = document.createElement("a");
-        a.innerText = result[0];
+        const h4 = document.createElement("h4");
+        h4.innerText = result[2];
+        a.appendChild(h4);
         a.href = result[1];
         a.target = "_blank";
-        li.appendChild(a);
-        ul.appendChild(li);
+        a.classList.add("item");
+        a.style.backgroundImage = `url(games/${result[0]}.jpeg)`;
+        container.appendChild(a);
       });
-      const container = document.getElementById("students");
-      container.appendChild(ul);
     });
 });
